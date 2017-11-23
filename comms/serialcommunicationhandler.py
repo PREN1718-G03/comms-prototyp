@@ -27,7 +27,7 @@ class SerialCommunicationHandler(object):
     class __SerialCommunicationHandler:
         def __init__(self):
             #fileConfig(cfg.get_logging_config_fullpath())
-            self.__log = logging.getLogger()
+            #self.__log = logging.getLogger()
             self.serialcom = None
             self.data_send = queue.Queue()
             self.data_receive = queue.Queue()
@@ -37,7 +37,7 @@ class SerialCommunicationHandler(object):
             """
             This function will initialize the corresponding GPIO-Pins for serial
             """
-            self.__log.info("Serial communication initialization started")
+            print ("Serial communication initialization started")
             self.serialcom = serial.Serial()
             self.serialcom.baudrate = 9600
             self.serialcom.port = '/dev/serial0'
@@ -50,11 +50,11 @@ class SerialCommunicationHandler(object):
                     while not self.data_send.empty():
                         currentqueueitem = self.data_send.get()
                         self.serialcom.write(currentqueueitem.encode('utf-8'))
-                        self.__log.info("value sent: " + str(currentqueueitem.strip('\n')))
+                        print("value sent: " + str(currentqueueitem.strip('\n')))
                 else:
                     self.__reconnectcommunication()
             except serial.SerialException as e:
-                self.__log.error("serial connection lost..." + str(e.strerror))
+                print("serial connection lost..." + str(e.strerror))
                 if self.serialcom.is_open():
                     self.__reconnectcommunication()
 
@@ -65,11 +65,11 @@ class SerialCommunicationHandler(object):
                     currentreceiveitem = self.serialcom.readline()
                     currentqueueitem_op, currentqueueitem_value = self.__encodestring(currentreceiveitem)
                     self.data_receive.put([currentqueueitem_op, currentqueueitem_value])
-                    self.__log.debug("value received: " + str(currentqueueitem_op) + "," + str(currentqueueitem_value))
+                    print("value received: " + str(currentqueueitem_op) + "," + str(currentqueueitem_value))
                 else:
                     self.__reconnectcommunication()
             except serial.SerialException as e:
-                self.__log.error("serial connection lost..." + str(e))
+                print("serial connection lost..." + str(e))
                 if self.serialcom.is_open:
                     self.__reconnectcommunication()
 
@@ -100,7 +100,7 @@ class SerialCommunicationHandler(object):
                 opval = opval.decode()
                 return operation.rstrip(), opval.rstrip()
             except:
-                self.__log.debug("org: " + str(inputvalue))
+                print("org: " + str(inputvalue))
                 return "ERROR", "ERROR"
 
         def __decodestring(self, operation, opval):
