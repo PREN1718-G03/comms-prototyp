@@ -1,0 +1,14 @@
+[settings]
+title = Traffic Light Detection
+project = PREN-Parcours
+description = PREN: Autonomous Parcour Vehicle
+copyright = Copyright PREN Team 37, 2017
+loglevel = 20
+debug = False
+course = 0
+
+[debug]
+output_red = False
+output_green = False
+output_bgwhite = True
+logging_config = /common/logging/logging.ini

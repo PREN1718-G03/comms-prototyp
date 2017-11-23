@@ -1,0 +1,67 @@
+# ================================================================================
+# !/usr/bin/python
+# TITLE           : confighandler.py
+# DESCRIPTION     : Handler for bla file
+# AUTHOR          : Moro Marco I.BSCI_F14.1301 <marco.moro@stud.hslu.ch>
+# DATE            : 30.01.2017
+# USAGE           :
+# VERSION         : 0.6
+# USAGE           :
+# NOTES           :
+# PYTHON_VERSION  : 3.4.2
+# OPENCV_VERSION  : 3.1.0
+# ================================================================================
+
+# import the necessary packages
+import configparser
+import threading
+
+import os
+import numpy as np
+
+__project_root_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+__inipath = __project_root_dir + '/common/config/config.ini'
+__lock = threading.Lock()
+
+
+# load ini file
+def __loadconfig():
+    config = configparser.ConfigParser()
+    __lock.acquire()
+    try:
+        config.read(__inipath)
+    finally:
+        __lock.release()
+        return config
+
+
+# convert string to boolean
+def __str2bool(val):
+    return val.lower() in ("True", "TRUE", "False", "FALSE")
+
+
+# get Projectrootdir
+def get_proj_rootdir():
+    return __project_root_dir
+
+
+# save changes to configfile
+def __persistchanges(section, item, val):
+    config = __loadconfig()
+    config.set(section, item, val)
+    __lock.acquire()
+    try:
+        with open(__inipath, "w") as configfile:
+            config.write(configfile)
+    finally:
+        __lock.release()
+
+# getter / setter for configfile values #
+
+# Start Section "Settings" #
+
+def get_logging_config_fullpath():
+    return __project_root_dir + __loadconfig().get('debug', 'logging_config')
+
+def set_debug_logging_config(val):
+    __persistchanges('debug', 'logging_config', val)
