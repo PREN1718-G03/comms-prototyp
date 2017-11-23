@@ -17,16 +17,16 @@ import logging
 import serial
 import queue
 import time
-import common.config.confighandler as cfg
+#import config.confighandler as cfg
 
 from threading import Thread
-from logging.config import fileConfig
+# from logging.config import fileConfig
 
 
 class SerialCommunicationHandler(object):
     class __SerialCommunicationHandler:
         def __init__(self):
-            fileConfig(cfg.get_logging_config_fullpath())
+            #fileConfig(cfg.get_logging_config_fullpath())
             self.__log = logging.getLogger()
             self.serialcom = None
             self.data_send = queue.Queue()
@@ -118,4 +118,4 @@ class SerialCommunicationHandler(object):
         return getattr(self.instance, name)
 
     def __setattr__(self, name):
-return setattr(self.instance, name)
+        return setattr(self.instance, name)

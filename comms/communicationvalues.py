@@ -16,9 +16,9 @@
 import logging
 import time
 
-# import config.confighandler as cfg
+#import config.confighandler as cfg
+#from logging.config import fileConfig
 from threading import Thread
-from logging.config import fileConfig
 from serialcommunicationhandler import SerialCommunicationHandler
 
 
