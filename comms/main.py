@@ -16,8 +16,8 @@ class testibus():
         self.serialcom = CommunicationValues()
         print("run")
         self.serialcom.send_hello()
-
         hellostate = self.serialcom.get_hello_blocking()  # await hello response or timeout...
+
         if hellostate == '1' or hellostate == 1:
             print("serial communication established!")
         else:

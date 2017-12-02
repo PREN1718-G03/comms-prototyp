@@ -41,7 +41,7 @@ class SerialCommunicationHandler(object):
         print ("Serial communication initialization started")
         self.serialcom = serial.Serial()
         self.serialcom.baudrate = 9600
-        self.serialcom.port = '/dev/serial0'
+        self.serialcom.port = '/dev/ttyAMA0'
         self.serialcom.open()
 
     def __txhandle(self):
